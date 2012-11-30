@@ -3,3 +3,5 @@
 .sublime-project.sublime-workspace
 coverage.data
 Gemfile.lock
+coverage
+*.gem
