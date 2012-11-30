@@ -1,0 +1,244 @@
+<html>
+  <head>
+    <title>Coverage Report</title>
+    <link href="report.css?0.9295655220139563" media="screen" rel="stylesheet" type="text/css" />
+    <link href="index.css?0.1185955988799996" media="screen" rel="stylesheet" type="text/css" />
+    <script src="jquery.js?0.8317918045278826"></script>
+    <script src="jquery.tablesorter.js?0.4377297609330264"></script>
+    <script>
+      $(function() {
+        
+        function filterByPercent() {
+          var p = $('#filter_by_percent').val();
+          if (p == 0 ) {
+            $('#main tbody tr').show();
+          } else if (p == 10) {
+            $('#main tbody tr.row').show();
+            $('#main tbody tr.10').hide();
+          } else if (p == 100) {
+            $('#main tbody tr.row').hide();
+            $('#main tbody tr.10').show();
+          } else {
+            $('#main tbody tr.row').hide();
+            var x = 0;
+            while (x < p) {
+              $('#main tbody tr.' + x).show();
+              x++;
+            }
+          }
+        }
+        
+        function filterByName(name) {
+          $('#main tbody tr:visible').each(function() {
+            if ($(this).attr('id').indexOf(name) != -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        }
+        
+        $('#filter_by_percent').change(function(e) {
+          filterByPercent();
+          filterByName($('#filter_by_name').val());
+        });
+      
+        $('#filter_by_name').keyup(function(e) {
+          filterByPercent();
+          filterByName($(this).val());
+        });
+        
+        $("#main").tablesorter(); 
+      });
+    </script>
+  </head>
+  <body>
+    <div id='big_total' class='miss'>99.44%</div>
+    
+    <h1>Coverage Report</h1>
+    
+    <div id='filters'>
+      Filter:
+      <input type='text' id='filter_by_name'>
+      
+      Code Coverage Threshold:
+      <select id='filter_by_percent'>
+        <option value='0'>Show All</option>
+        <option value='1'><= 10% Coverage</option>
+        <option value='2'><= 20% Coverage</option>
+        <option value='3'><= 30% Coverage</option>
+        <option value='4'><= 40% Coverage</option>
+        <option value='5'><= 50% Coverage</option>
+        <option value='6'><= 60% Coverage</option>
+        <option value='7'><= 70% Coverage</option>
+        <option value='8'><= 80% Coverage</option>
+        <option value='9'><= 90% Coverage</option>
+        <option value='10'>< 100% Coverage</option>
+        <option value='100'>= 100% Coverage</option>
+      </select>
+    </div>
+
+    <table cellpadding='0' cellspacing='1'>
+      <tr>
+        <th>Legend</th>
+      </tr>
+      <tr>
+        
+        <td class='hit'>This file was tested 100%!</td>
+      </tr>
+      <tr>
+        <td class='near'>This file was tested >90%!</td>
+      </tr>
+      <tr>
+        <td class='miss'>This file was not tested nearly enough!</td>
+      </tr>
+    </table>
+    
+    <div>&nbsp;</div>
+
+    <table cellpadding="0" cellspacing='1' id='main'>
+      <thead>
+        <tr class='header'>
+          <th>File</th>
+          <th>Lines</th>
+          <th>Lines Of Code</th>
+          <th>Untested Lines of Code</th>
+          <th>Tested %</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        
+          <tr class='row hit 10' id='lib/ocrsdk.rb'>
+            <td>
+              <a href="lib/ocrsdk.rb.html">lib/ocrsdk.rb</a>
+            </td>
+            <td>23</td>
+            <td>23</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/abstract_entity.rb'>
+            <td>
+              <a href="lib/ocrsdk/abstract_entity.rb.html">lib/ocrsdk/abstract_entity.rb</a>
+            </td>
+            <td>14</td>
+            <td>8</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/document.rb'>
+            <td>
+              <a href="lib/ocrsdk/document.rb.html">lib/ocrsdk/document.rb</a>
+            </td>
+            <td>8</td>
+            <td>3</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/errors.rb'>
+            <td>
+              <a href="lib/ocrsdk/errors.rb.html">lib/ocrsdk/errors.rb</a>
+            </td>
+            <td>13</td>
+            <td>10</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/image.rb'>
+            <td>
+              <a href="lib/ocrsdk/image.rb.html">lib/ocrsdk/image.rb</a>
+            </td>
+            <td>56</td>
+            <td>29</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/pdf.rb'>
+            <td>
+              <a href="lib/ocrsdk/pdf.rb.html">lib/ocrsdk/pdf.rb</a>
+            </td>
+            <td>27</td>
+            <td>12</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/promise.rb'>
+            <td>
+              <a href="lib/ocrsdk/promise.rb.html">lib/ocrsdk/promise.rb</a>
+            </td>
+            <td>87</td>
+            <td>47</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row miss 8' id='lib/ocrsdk/verifiers.rb'>
+            <td>
+              <a href="lib/ocrsdk/verifiers.rb.html">lib/ocrsdk/verifiers.rb</a>
+            </td>
+            <td>17</td>
+            <td>7</td>
+            <td>1</td>
+            <td>85.7%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/verifiers/format.rb'>
+            <td>
+              <a href="lib/ocrsdk/verifiers/format.rb.html">lib/ocrsdk/verifiers/format.rb</a>
+            </td>
+            <td>26</td>
+            <td>11</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/verifiers/language.rb'>
+            <td>
+              <a href="lib/ocrsdk/verifiers/language.rb.html">lib/ocrsdk/verifiers/language.rb</a>
+            </td>
+            <td>43</td>
+            <td>14</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/verifiers/profile.rb'>
+            <td>
+              <a href="lib/ocrsdk/verifiers/profile.rb.html">lib/ocrsdk/verifiers/profile.rb</a>
+            </td>
+            <td>15</td>
+            <td>7</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+          <tr class='row hit 10' id='lib/ocrsdk/verifiers/status.rb'>
+            <td>
+              <a href="lib/ocrsdk/verifiers/status.rb.html">lib/ocrsdk/verifiers/status.rb</a>
+            </td>
+            <td>19</td>
+            <td>9</td>
+            <td>0</td>
+            <td>100.0%</td>
+          </tr>
+        
+      </tbody>
+      
+      <tr class='header'>
+        <th>Total</th>
+        <th>348</th>
+        <th>180</th>
+        <th>1</th>
+        <th>99.44%</th>
+      </tr>
+    </table>
+    <p>Generated on: 2012-12-01 01:40:30 +0400</p>
+  </body>
+</html>

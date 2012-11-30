@@ -1,0 +1,2 @@
+OCRSDK [![Build Status](https://secure.travis-ci.org/andrusha/ocrsdk.png?branch=master)](http://travis-ci.org/andrusha/ocrsdk) [![Dependency Status](https://gemnasium.com/andrusha/ocrsdk.png)](http://gemnasium.com/andrusha/ocrsdk) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/andrusha/ocrsdk)
+======
