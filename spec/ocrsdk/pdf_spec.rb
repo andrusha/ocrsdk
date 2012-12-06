@@ -2,6 +2,13 @@
 require 'spec_helper'
 
 describe OCRSDK::PDF do
+  before do
+    OCRSDK.setup do |config|
+      config.application_id = 'meow'
+      config.password = 'purr'
+    end    
+  end
+  
   describe ".recognizeable?" do
     it "should return false for a document with text only" do
       OCRSDK::PDF.new(TestFiles.lorem_pdf).recognizeable?.should be_false

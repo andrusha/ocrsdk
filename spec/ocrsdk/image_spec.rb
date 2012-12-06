@@ -2,6 +2,13 @@
 require 'spec_helper'
 
 describe OCRSDK::Image do
+  before do
+    OCRSDK.setup do |config|
+      config.application_id = 'app_id'
+      config.password = 'pass'
+    end    
+  end
+
   describe ".as_text" do
     subject { OCRSDK::Image.new 'image.jpg' }
     before { mock_ocrsdk }
@@ -46,7 +53,7 @@ describe OCRSDK::Image do
   end
 
   describe ".api_process_image" do
-    subject { OCRSDK::Image.new 'image.jpg', 'app_id', 'pass' }
+    subject { OCRSDK::Image.new 'image.jpg' }
 
     it "should raise UnsupportedLanguage on unsupported language" do
       expect {

@@ -3,15 +3,15 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
   include OCRSDK::Verifiers::Format
   include OCRSDK::Verifiers::Profile
 
-  def initialize(image_path, application_id=nil, password=nil)
-    super(application_id, password)
+  def initialize(image_path)
+    super()
     @image_path = image_path
   end
 
   def as_text(languages)
     xml_string = api_process_image @image_path, languages, :txt, :text_extraction
 
-    OCRSDK::Promise.from_response xml_string, @application_id, @password
+    OCRSDK::Promise.from_response xml_string
   end
 
   def as_text_sync(languages, wait_interval=OCRSDK::DEFAULT_POLL_TIME)
@@ -21,7 +21,7 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
   def as_pdf(languages)
     xml_string = api_process_image @image_path, languages, :pdf, :document_conversion
 
-    OCRSDK::Promise.from_response xml_string, @application_id, @password
+    OCRSDK::Promise.from_response xml_string
   end
 
   def as_pdf_sync(languages, out_path=nil, wait_interval=OCRSDK::DEFAULT_POLL_TIME)

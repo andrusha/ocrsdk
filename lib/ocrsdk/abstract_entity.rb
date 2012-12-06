@@ -1,9 +1,6 @@
 class OCRSDK::AbstractEntity
-  def initialize(application_id=nil, password=nil)
-    @application_id = application_id || '' # Rails.configuration.ocrsdk.application_id
-    @password       = password       || '' # Rails.configuration.ocrsdk.password
-
-    @url = prepare_url @application_id, @password
+  def initialize
+    @url = prepare_url OCRSDK.config.application_id, OCRSDK.config.password
   end
 
 private

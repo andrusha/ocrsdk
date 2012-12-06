@@ -3,12 +3,12 @@ class OCRSDK::Promise < OCRSDK::AbstractEntity
 
   attr_reader :task_id, :status, :result_url, :estimate_processing_time
 
-  def self.from_response(xml_string, application_id=nil, password=nil)
-    OCRSDK::Promise.new(nil, application_id, password).parse_response xml_string
+  def self.from_response(xml_string)
+    OCRSDK::Promise.new(nil).parse_response xml_string
   end
 
-  def initialize(task_id, application_id=nil, password=nil)
-    super(application_id, password)
+  def initialize(task_id)
+    super()
     @task_id = task_id
   end
 

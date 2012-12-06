@@ -2,6 +2,12 @@
 require 'spec_helper'
 
 describe OCRSDK::Promise do
+  before do
+    OCRSDK.setup do |config|
+      config.application_id = 'app_id'
+      config.password = 'pass'
+    end
+  end
 
   describe ".parse_response" do
     context "correct response" do
@@ -57,7 +63,7 @@ describe OCRSDK::Promise do
   end
 
   describe ".api_update_status" do
-    subject { OCRSDK::Promise.new 'test', 'app_id', 'pass' }
+    subject { OCRSDK::Promise.new 'test' }
 
     it "should make an api call with correct url" do
       RestClient.stub(:get) do |url| 

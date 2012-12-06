@@ -18,6 +18,16 @@ Installation
 gem install ocrsdk
 ```
 
+Configuration
+-------------
+
+```ruby
+OCRSDK.setup do |config|
+  config.application_id = '99bottlesofbeer'
+  config.password = '98bottlesofbeer'
+end
+```
+
 Usage
 -----
 
