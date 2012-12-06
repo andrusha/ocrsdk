@@ -15,7 +15,7 @@ module OCRSDK::Verifiers::Language
     :portuguese_standard, :provencal, :quechua, :romanian, :romanian_moldavia, :romany, 
     :rundi, :russian, :samoan, :selkup, :serbian_cyrillic, :shona, :sioux, :slovenian, 
     :somali, :spanish, :sunda, :tabassaran, :tagalog, :tahitian, :tajik, :tatar, :tinpo, 
-    :tun, :turkish, :uighur_cyrillic, :ukrainian, :uzbek_cyrillic, :visayan]
+    :tun, :turkish, :uighur_cyrillic, :ukrainian, :uzbek_cyrillic, :visayan].freeze
 
   def language_to_s(language)
     language.to_s.camelize

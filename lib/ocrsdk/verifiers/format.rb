@@ -1,11 +1,11 @@
 module OCRSDK::Verifiers::Format
   # http://ocrsdk.com/documentation/specifications/image-formats/
   INPUT_FORMATS = [:bmp, :dcx, :pcx, :png, :jp2, :jpc, :jpg, :jpeg, :jfif, :pdf, 
-    :tif, :tiff, :gif, :djvu, :djv, :jb2]
+    :tif, :tiff, :gif, :djvu, :djv, :jb2].freeze
 
   # http://ocrsdk.com/documentation/apireference/processImage/
   OUTPUT_FORMATS = [:txt, :rtf, :docx, :xlsx, :pptx, :pdf_searchable, 
-    :pdf_text_and_images, :xml, :alto]
+    :pdf_text_and_images, :xml, :alto].freeze
 
   def format_to_s(format)
     format.to_s.camelize(:lower)

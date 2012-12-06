@@ -1,7 +1,7 @@
 module OCRSDK::Verifiers::Status
   # http://ocrsdk.com/documentation/specifications/task-statuses/
   STATUSES = [:submitted, :queued, :in_progress, :completed, 
-    :processing_failed, :deleted, :not_enough_credits]
+    :processing_failed, :deleted, :not_enough_credits].freeze
 
   def status_to_s(status)
     status.to_s.camelize

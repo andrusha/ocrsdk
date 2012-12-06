@@ -1,7 +1,7 @@
 module OCRSDK::Verifiers::Profile
   # http://ocrsdk.com/documentation/specifications/processing-profiles/
   PROFILES = [:document_conversion, :document_archiving, :text_extraction,
-    :field_level_recognition, :barcode_recognition]
+    :field_level_recognition, :barcode_recognition].freeze
 
   def profile_to_s(profile)
     profile.to_s.camelize(:lower)
