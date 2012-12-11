@@ -10,7 +10,7 @@ describe OCRSDK::Image do
   end
 
   describe ".as_text" do
-    subject { OCRSDK::Image.new 'image.jpg' }
+    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
     before { mock_ocrsdk }
     
     it "should call api and return Promise" do
@@ -19,7 +19,7 @@ describe OCRSDK::Image do
   end
 
   describe ".as_text_sync" do
-    subject { OCRSDK::Image.new 'image.jpg' }
+    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
     before { mock_ocrsdk }
 
     it "should wait till Promise is done and return result" do
@@ -28,7 +28,7 @@ describe OCRSDK::Image do
   end
 
   describe ".as_pdf" do
-    subject { OCRSDK::Image.new 'image.jpg' }
+    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
     before { mock_ocrsdk }
     
     it "should call api and return Promise" do
@@ -37,7 +37,7 @@ describe OCRSDK::Image do
   end
 
   describe ".as_pdf_sync" do
-    subject { OCRSDK::Image.new 'image.jpg' }
+    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
     before { mock_ocrsdk }
 
     it "should wait till Promise is done and return result if output file isn't specified" do
@@ -53,11 +53,11 @@ describe OCRSDK::Image do
   end
 
   describe ".api_process_image" do
-    subject { OCRSDK::Image.new 'image.jpg' }
+    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
 
     it "should raise UnsupportedLanguage on unsupported language" do
       expect {
-        subject.instance_eval { api_process_image 'image.jpg', [:meow] }
+        subject.instance_eval { api_process_image TestFiles.russian_jpg_path, [:meow] }
       }.to raise_error(OCRSDK::UnsupportedLanguage)
     end
 
@@ -69,13 +69,13 @@ describe OCRSDK::Image do
 
     it "should raise UnsupportedOutputFormat on unsupported output format" do
       expect {
-        subject.instance_eval { api_process_image 'image.jpg', [:russian], :meow }
+        subject.instance_eval { api_process_image TestFiles.russian_jpg_path, [:russian], :meow }
       }.to raise_error(OCRSDK::UnsupportedOutputFormat)
     end
 
     it "should raise UnsupportedProfile on unsupported profile" do
       expect {
-        subject.instance_eval { api_process_image 'image.jpg', [:russian], :txt, :meow }
+        subject.instance_eval { api_process_image TestFiles.russian_jpg_path, [:russian], :txt, :meow }
       }.to raise_error(OCRSDK::UnsupportedProfile)
     end
 

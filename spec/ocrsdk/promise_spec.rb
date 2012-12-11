@@ -15,7 +15,7 @@ describe OCRSDK::Promise do
 
       its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
       its(:status)     { should == :submitted }
-      its(:result_url) { should == 'http://domain/blob ID' }
+      its(:result_url) { should == 'http://cloud.ocrsdk.com/result_url' }
       its(:estimate_processing_time) { should == 3600 }
       its(:estimate_completion) { should == DateTime.parse("2001-01-01T13:18:22Z") + 3600.seconds }      
     end
@@ -46,7 +46,7 @@ describe OCRSDK::Promise do
 
     its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
     its(:status)     { should == :submitted }
-    its(:result_url) { should == 'http://domain/blob ID' }
+    its(:result_url) { should == 'http://cloud.ocrsdk.com/result_url' }
     its(:estimate_processing_time) { should == 3600 }
     its(:estimate_completion) { should == DateTime.parse("2001-01-01T13:18:22Z") + 3600.seconds }
   end
@@ -94,7 +94,7 @@ describe OCRSDK::Promise do
 
       it "should get file with coorect url and return its contents" do
         RestClient.stub(:get) do |url| 
-          url.to_s.should == "http://domain/blob ID"
+          url.to_s.should == "http://cloud.ocrsdk.com/result_url"
           "meow"
         end
         RestClient.should_receive(:get).once

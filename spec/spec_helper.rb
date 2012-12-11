@@ -3,6 +3,7 @@ if RUBY_VERSION >= '1.9'
 end
 
 require 'rspec'
+require 'webmock/rspec'
 require 'ocrsdk'
 require 'helpers/ocrsdk_helpers'
 require 'support/test_files'

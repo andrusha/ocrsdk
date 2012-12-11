@@ -12,7 +12,7 @@ module OCRSDKHelpers
           filesCount="10"
           credits="10"
           estimatedProcessingTime="3600"
-          resultUrl="http://domain/blob ID"
+          resultUrl="http://cloud.ocrsdk.com/result_url"
           description="My first OCR task"/>
         <task/>
       </response>
@@ -31,7 +31,7 @@ module OCRSDKHelpers
           filesCount="10"
           credits="0"
           estimatedProcessingTime="3600"
-          resultUrl="http://domain/blob ID"
+          resultUrl="http://cloud.ocrsdk.com/result_url"
           description="My first OCR task"/>
         <task/>
       </response>
@@ -50,7 +50,7 @@ module OCRSDKHelpers
           filesCount="10"
           credits="10"
           estimatedProcessingTime="3600"
-          resultUrl="http://domain/blob ID"
+          resultUrl="http://cloud.ocrsdk.com/result_url"
           description="My first OCR task"/>
         <task/>
       </response>
@@ -69,7 +69,7 @@ module OCRSDKHelpers
           filesCount="10"
           credits="10"
           estimatedProcessingTime="3600"
-          resultUrl="http://domain/blob ID"
+          resultUrl="http://cloud.ocrsdk.com/result_url"
           description="My first OCR task"/>
         <task/>
       </response>
@@ -88,7 +88,7 @@ module OCRSDKHelpers
           filesCount="10"
           credits="10"
           estimatedProcessingTime="3600"
-          resultUrl="http://domain/blob ID"
+          resultUrl="http://cloud.ocrsdk.com/result_url"
           description="My first OCR task"/>
         <task/>
       </response>
@@ -96,9 +96,9 @@ module OCRSDKHelpers
   end
 
   def mock_ocrsdk
-    OCRSDK::Image.any_instance.stub(:api_process_image) { |x,y,i,j| process_image_response }
-    OCRSDK::Promise.any_instance.stub(:api_update_status) { process_image_completed_response }
-    OCRSDK::Promise.any_instance.stub(:api_get_result) { "meow" }    
+    stub_request(:post, /.*:.*@cloud.ocrsdk.com\/processImage/).to_return(body: process_image_response)
+    stub_request(:get,  /.*:.*@cloud.ocrsdk.com\/getTaskStatus\?taskId=.*/).to_return(body: process_image_completed_response )
+    stub_request(:get, 'http://cloud.ocrsdk.com/result_url').to_return(body: 'meow')
   end
 
 end
