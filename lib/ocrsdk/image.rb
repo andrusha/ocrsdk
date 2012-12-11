@@ -19,7 +19,7 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
   end
 
   def as_pdf(languages)
-    xml_string = api_process_image @image_path, languages, :pdf, :document_conversion
+    xml_string = api_process_image @image_path, languages, :pdf_text_and_images, :document_conversion
 
     OCRSDK::Promise.from_response xml_string
   end
