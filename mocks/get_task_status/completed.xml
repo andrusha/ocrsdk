@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+  <task id="update-task-id"
+    registrationTime="2001-01-01T13:18:22Z"
+    statusChangeTime="2001-03-01T13:18:22Z"
+    status="Completed"
+    error="{An error message.}"
+    filesCount="10"
+    credits="10"
+    estimatedProcessingTime="3600"
+    resultUrl="http://cloud.ocrsdk.com/result_url"
+    description="My first OCR task"/>
+  <task/>
+</response>

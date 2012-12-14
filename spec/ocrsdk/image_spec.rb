@@ -6,40 +6,31 @@ describe OCRSDK::Image do
     OCRSDK.setup do |config|
       config.application_id = 'app_id'
       config.password = 'pass'
-    end    
+    end
+    OCRSDK::Mock.success
   end
 
+  subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
+
   describe ".as_text" do
-    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
-    before { mock_ocrsdk }
-    
     it "should call api and return Promise" do
       subject.as_text([:russian]).should be_kind_of(OCRSDK::Promise)
     end
   end
 
   describe ".as_text_sync" do
-    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
-    before { mock_ocrsdk }
-
     it "should wait till Promise is done and return result" do
       subject.as_text_sync([:russian], 0).should == 'meow'
     end
   end
 
   describe ".as_pdf" do
-    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
-    before { mock_ocrsdk }
-    
     it "should call api and return Promise" do
       subject.as_pdf([:russian]).should be_kind_of(OCRSDK::Promise)
     end
   end
 
   describe ".as_pdf_sync" do
-    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
-    before { mock_ocrsdk }
-
     it "should wait till Promise is done and return result if output file isn't specified" do
       subject.as_pdf_sync([:russian], nil, 0).should == 'meow'
     end
@@ -53,8 +44,6 @@ describe OCRSDK::Image do
   end
 
   describe ".api_process_image" do
-    subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
-
     it "should raise UnsupportedLanguage on unsupported language" do
       expect {
         subject.instance_eval { api_process_image TestFiles.russian_jpg_path, [:meow] }

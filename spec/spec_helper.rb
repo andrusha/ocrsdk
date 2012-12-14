@@ -5,5 +5,5 @@ end
 require 'rspec'
 require 'webmock/rspec'
 require 'ocrsdk'
-require 'helpers/ocrsdk_helpers'
+require 'ocrsdk/mock'
 require 'support/test_files'

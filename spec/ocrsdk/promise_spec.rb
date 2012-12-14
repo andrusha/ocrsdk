@@ -11,7 +11,7 @@ describe OCRSDK::Promise do
 
   describe ".parse_response" do
     context "correct response" do
-      subject { OCRSDK::Promise.new(nil).parse_response process_image_response }
+      subject { OCRSDK::Promise.new(nil).parse_response OCRSDK::Mock.response(:get_task_status, :submitted) }
 
       its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
       its(:status)     { should == :submitted }
@@ -35,14 +35,14 @@ describe OCRSDK::Promise do
 
       it "should raise an OCRSDK::NotEnoughCredits error" do
         expect {
-          subject.parse_response process_image_response_credits
+          subject.parse_response OCRSDK::Mock.response(:get_task_status, :not_enough_credits)
         }.to raise_error(OCRSDK::NotEnoughCredits)
       end
     end
   end 
 
   describe "self.from_response" do
-    subject { OCRSDK::Promise.from_response process_image_response }
+    subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :submitted) }
 
     its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
     its(:status)     { should == :submitted }
@@ -54,7 +54,7 @@ describe OCRSDK::Promise do
   describe ".update" do
     subject { OCRSDK::Promise.new 'update-task-id' }
     before do
-      subject.stub(:api_update_status) { process_image_updated_response }
+      OCRSDK::Mock.in_progress
       subject.update
     end
 
@@ -85,21 +85,10 @@ describe OCRSDK::Promise do
 
   describe ".result" do
     context "processing completed without errors" do
-      subject { OCRSDK::Promise.from_response process_image_completed_response }
+      before { OCRSDK::Mock.success }
+      subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :completed) }
 
-      it "should call api method" do
-        subject.should_receive(:api_get_result).once
-        subject.result
-      end
-
-      it "should get file with coorect url and return its contents" do
-        RestClient.stub(:get) do |url| 
-          url.to_s.should == "http://cloud.ocrsdk.com/result_url"
-          "meow"
-        end
-        RestClient.should_receive(:get).once
-        subject.result.should == 'meow'
-      end
+      its(:result) { should == 'meow' }
 
       it "should raise NetworkError in case getting file fails" do
         RestClient.stub(:get) {|url| raise RestClient::ExceptionWithResponse }
@@ -112,7 +101,7 @@ describe OCRSDK::Promise do
     end
 
     context "processing failed" do
-      subject { OCRSDK::Promise.from_response process_image_failed_response }
+      subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :failed) }
 
       it "should raise an ProcessingFailed" do
         expect {
@@ -124,7 +113,7 @@ describe OCRSDK::Promise do
 
   describe ".completed? and .failed?" do
     context "processed job" do
-      subject { OCRSDK::Promise.from_response process_image_updated_response }
+      subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :in_progress) }
 
       its(:processing?) { should be_true }
       its(:completed?)  { should be_false }
@@ -132,7 +121,7 @@ describe OCRSDK::Promise do
     end
 
     context "completed job" do
-      subject { OCRSDK::Promise.from_response process_image_completed_response }
+      subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :completed) }
 
       its(:processing?) { should be_false }
       its(:completed?)  { should be_true }
@@ -140,7 +129,7 @@ describe OCRSDK::Promise do
     end
 
     context "failed job" do
-      subject { OCRSDK::Promise.from_response process_image_failed_response }
+      subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :failed) }
 
       its(:processing?) { should be_false }
       its(:completed?)  { should be_false }
@@ -149,13 +138,13 @@ describe OCRSDK::Promise do
   end
 
   describe ".wait" do
-    subject { OCRSDK::Promise.from_response process_image_response }
+    subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :in_progress) }
 
     it "should check the status as many times as needed waiting while ocr is completed" do
       called_once = false
       subject.stub(:update) do
         if called_once
-          subject.parse_response process_image_completed_response
+          subject.parse_response OCRSDK::Mock.response(:get_task_status, :completed)
         else
           called_once = true
         end
