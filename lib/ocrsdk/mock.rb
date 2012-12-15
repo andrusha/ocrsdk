@@ -17,6 +17,7 @@ module OCRSDK::Mock
 
     def not_enough_credits
       success
+      stub_process_image response(:process_image, :not_enough_credits)
       stub_get_task_status response(:get_task_status, :not_enough_credits)
     end
 
