@@ -76,6 +76,34 @@ else
 end
 ```
 
+Testing
+-------
+
+In order to make tests determenistic and fast you might want to mock all network interactions. For this purpose OCRSDK introduce Mock module built on top of [Webmock](https://github.com/bblimke/webmock) gem. It can be used with any testing environment including RSpec, Capybara, Cucumber. To mock all gem request you need to call on of those functions before running tests:  
+
+* `OCRSDK::Mock.success` - image was correctly submitted, promise will return `:completed` status and you will be able to retrieve a result;  
+* `OCRSDK::Mock.in_progress` - image was correctly submitted, promise will return `:in_progress` status for every request, which means you wouldn't be able to get the result;  
+* `OCRSDK::Mock.not_enough_credits` - submission of image would raise `OCRSDK::NotEnoughCredits` error.  
+
+For example you can mock ocrsdk in controller test like this:  
+
+```ruby
+# spec_helper.rb
+require 'ocrsdk/mock'
+
+# some_controller_spec.rb
+
+require 'spec_helper'
+
+describe SomeController do
+  before { OCRSDK::Mock.success }
+
+  describe "POST recognize" do
+    # ...
+  end
+end
+```
+
 Copyright
 =========
 Copytright © 2012 Andrey Korzhuev. See LICENSE for details.
