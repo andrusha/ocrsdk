@@ -1,3 +1,4 @@
+require 'ocrsdk'
 require 'webmock'
 
 module OCRSDK::Mock
