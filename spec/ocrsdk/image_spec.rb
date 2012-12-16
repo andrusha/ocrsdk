@@ -6,6 +6,7 @@ describe OCRSDK::Image do
     OCRSDK.setup do |config|
       config.application_id = 'app_id'
       config.password = 'pass'
+      config.retry_wait_time = 0
     end
     OCRSDK::Mock.success
   end
@@ -68,9 +69,9 @@ describe OCRSDK::Image do
       }.to raise_error(OCRSDK::UnsupportedProfile)
     end
 
-    it "should raise NetworkError on problems with REST request" do
+    it "should raise NetworkError on problems with REST request, retry 3 times before failing" do
       RestClient.stub(:post) {|url, params| raise RestClient::ExceptionWithResponse }
-      RestClient.should_receive(:post).once
+      RestClient.should_receive(:post).exactly(3)
 
       expect {
         subject.instance_eval { api_process_image TestFiles.russian_jpg_path, [:russian] }

@@ -49,8 +49,12 @@ private
               profile: profile_to_s(profile))
     uri = URI.join @url, '/processImage', "?#{params}"
 
-    RestClient.post uri.to_s, upload: { file: File.new(image_path, 'rb') }
-  rescue RestClient::ExceptionWithResponse
-    raise OCRSDK::NetworkError
+    retryable tries: OCRSDK.config.number_or_retries, on: OCRSDK::NetworkError, sleep: OCRSDK.config.retry_wait_time do
+      begin
+        RestClient.post uri.to_s, upload: { file: File.new(image_path, 'rb') }
+      rescue RestClient::ExceptionWithResponse
+        raise OCRSDK::NetworkError
+      end
+    end
   end
 end
