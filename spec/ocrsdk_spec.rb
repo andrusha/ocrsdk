@@ -2,10 +2,6 @@
 require 'spec_helper'
 
 describe OCRSDK do
-  it "should have service url" do 
-    OCRSDK::SERVICE_URL.length.should > 0
-  end
-
   it "should be configurable" do
     OCRSDK.setup do |config|
       config.application_id = 'meow'

@@ -36,8 +36,10 @@ class OCRSDK::Promise < OCRSDK::AbstractEntity
     self
   end
 
-  def update
-    parse_response api_update_status
+  def update(retry_sleep=OCRSDK.config.retry_wait_time)
+    retryable tries: OCRSDK.config.number_or_retries, on: OCRSDK::NetworkError, sleep: retry_sleep do
+      parse_response api_update_status
+    end
   end
 
   def completed?
@@ -52,12 +54,14 @@ class OCRSDK::Promise < OCRSDK::AbstractEntity
     [:submitted, :queued, :in_progress].include? @status
   end
 
-  def result
+  def result(retry_sleep=OCRSDK.config.retry_wait_time)
     raise OCRSDK::ProcessingFailed  if failed?
-    api_get_result
+    retryable tries: OCRSDK.config.number_or_retries, on: OCRSDK::NetworkError, sleep: retry_sleep do
+      api_get_result
+    end
   end
 
-  def wait(seconds=OCRSDK::DEFAULT_POLL_TIME)
+  def wait(seconds=OCRSDK.config.default_poll_time)
     while processing? do
       sleep seconds
       update

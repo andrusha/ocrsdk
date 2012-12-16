@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "nokogiri"
   s.add_runtime_dependency "pdf-reader"
   s.add_runtime_dependency "activesupport"
+  s.add_runtime_dependency "retryable"
 
   s.add_development_dependency "rake", ">= 0.8"
   if RUBY_VERSION >= '1.9'

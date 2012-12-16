@@ -79,7 +79,7 @@ describe OCRSDK::Image do
 
     it "should do a post request with correct url and file attached" do
       RestClient.stub(:post) do |uri, params|
-        uri.to_s.should == "http://app_id:pass@#{OCRSDK::SERVICE_URL}/processImage?language=Russian%2CEnglish&exportFormat=txt&profile=documentConversion"
+        uri.to_s.should == "http://app_id:pass@cloud.ocrsdk.com/processImage?language=Russian%2CEnglish&exportFormat=txt&profile=documentConversion"
         params[:upload][:file].should be_kind_of(File)
       end
       RestClient.should_receive(:post).once

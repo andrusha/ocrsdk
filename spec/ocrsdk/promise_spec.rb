@@ -60,6 +60,15 @@ describe OCRSDK::Promise do
 
     its(:task_id) { should == 'update-task-id' }
     its(:status)  { should == :in_progress }
+
+    it "should raise a NetworkError in case REST request fails, and retry 3 times" do
+      RestClient.stub(:get) {|url| raise RestClient::ExceptionWithResponse }
+      RestClient.should_receive(:get).exactly(3)
+
+      expect {
+        subject.result(0)
+      }.to raise_error(OCRSDK::NetworkError)
+    end
   end
 
   describe ".api_update_status" do
@@ -67,7 +76,7 @@ describe OCRSDK::Promise do
 
     it "should make an api call with correct url" do
       RestClient.stub(:get) do |url| 
-        url.to_s.should == "http://app_id:pass@#{OCRSDK::SERVICE_URL}/getTaskStatus?taskId=test"
+        url.to_s.should == "http://app_id:pass@cloud.ocrsdk.com/getTaskStatus?taskId=test"
       end
       RestClient.should_receive(:get).once
       subject.instance_eval { api_update_status }
@@ -90,12 +99,12 @@ describe OCRSDK::Promise do
 
       its(:result) { should == 'meow' }
 
-      it "should raise NetworkError in case getting file fails" do
+      it "should raise NetworkError in case getting file fails, but retry 3 times before failing" do
         RestClient.stub(:get) {|url| raise RestClient::ExceptionWithResponse }
-        RestClient.should_receive(:get).once
+        RestClient.should_receive(:get).exactly(3)
 
         expect {
-          subject.result
+          subject.result(0)
         }.to raise_error(OCRSDK::NetworkError)        
       end
     end

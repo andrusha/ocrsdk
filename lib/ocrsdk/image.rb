@@ -14,7 +14,7 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
     OCRSDK::Promise.from_response xml_string
   end
 
-  def as_text_sync(languages, wait_interval=OCRSDK::DEFAULT_POLL_TIME)
+  def as_text_sync(languages, wait_interval=OCRSDK.config.default_poll_time)
     as_text(languages).wait(wait_interval).result.force_encoding('utf-8')
   end
 
@@ -24,7 +24,7 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
     OCRSDK::Promise.from_response xml_string
   end
 
-  def as_pdf_sync(languages, out_path=nil, wait_interval=OCRSDK::DEFAULT_POLL_TIME)
+  def as_pdf_sync(languages, out_path=nil, wait_interval=OCRSDK.config.default_poll_time)
     result = as_pdf(languages).wait(wait_interval).result
 
     if out_path.nil?

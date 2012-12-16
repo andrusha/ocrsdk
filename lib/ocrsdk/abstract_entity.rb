@@ -6,6 +6,6 @@ class OCRSDK::AbstractEntity
 private
 
   def prepare_url(app_id, pass)
-    URI("http://#{CGI.escape app_id}:#{CGI.escape pass}@#{OCRSDK::SERVICE_URL}")
+    URI("http://#{CGI.escape app_id}:#{CGI.escape pass}@#{OCRSDK.config.service_url}")
   end
 end
