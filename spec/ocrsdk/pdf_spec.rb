@@ -29,5 +29,10 @@ describe OCRSDK::PDF do
     it "should return true for 'searchable' document with malformed text underneath the pic" do
       OCRSDK::PDF.new(TestFiles.searchable_malformed_pdf).recognizeable?.should be_true
     end
+
+    it "should return true for recognizeable document with title page" do
+      OCRSDK::PDF.new(TestFiles.recognizeable_title_pdf).recognizeable?.should be_true
+      OCRSDK::PDF.new(TestFiles.recognizeable_title2_pdf).recognizeable?.should be_true
+    end
   end
 end

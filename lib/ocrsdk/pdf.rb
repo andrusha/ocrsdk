@@ -4,15 +4,22 @@ class OCRSDK::PDF < OCRSDK::Image
   # Currently we count that if there are
   #   images * 20 > length of text
   # then this document might need recognition.
+  #
   # Assumption is that there might be a title,
   # page numbers or credits along with images.
+  #
+  # In case of title page we also skip the first page
+  # which should not affect documents which will not
+  # need to be recognized
+  # 
   def recognizeable?
     reader = PDF::Reader.new @image_path
 
     images = 0
     text   = 0
     chars  = Set.new
-    reader.pages.each do |page|
+    start = reader.pages.length > 1 ? 1 : 0
+    reader.pages[start..-1].each do |page|
       text   += page.text.length
       chars  += page.text.split('').map(&:ord).uniq
       images += page.xobjects.map {|k, v| v.hash[:Subtype]}.count(:Image)
