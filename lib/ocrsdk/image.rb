@@ -18,6 +18,17 @@ class OCRSDK::Image < OCRSDK::AbstractEntity
     as_text(languages).wait(wait_interval).result.force_encoding('utf-8')
   end
 
+  def as_xml(languages)
+    xml_string = api_process_image @image_path, languages, :xml, :text_extraction
+
+    OCRSDK::Promise.from_response xml_string
+  end
+
+  def as_xml_sync(languages, wait_interval=OCRSDK.config.default_poll_time)
+    as_xml(languages).wait(wait_interval).result.force_encoding('utf-8')
+  end
+
+
   def as_pdf(languages)
     xml_string = api_process_image @image_path, languages, :pdf_text_and_images, :document_conversion
 

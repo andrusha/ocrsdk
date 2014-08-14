@@ -25,6 +25,20 @@ describe OCRSDK::Image do
     end
   end
 
+  describe ".as_xml" do
+    it "should call api and return Promise" do
+      subject.as_xml([:russian]).should be_kind_of(OCRSDK::Promise)
+    end
+  end
+
+  describe ".as_xml_sync" do
+    it "should wait till Promise is done and return result" do
+      subject.as_xml_sync([:russian], 0).should == 'meow'
+    end
+  end
+
+
+
   describe ".as_pdf" do
     it "should call api and return Promise" do
       subject.as_pdf([:russian]).should be_kind_of(OCRSDK::Promise)
