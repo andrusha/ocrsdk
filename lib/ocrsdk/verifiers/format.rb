@@ -8,7 +8,9 @@ module OCRSDK::Verifiers::Format
     :pdf_text_and_images, :xml, :alto].freeze
 
   def format_to_s(format)
-    format.to_s.camelize(:lower)
+    Array(format).map do |f|
+      f.to_s.camelize(:lower)
+    end.join(",")
   end
 
   def supported_input_format?(format)
@@ -18,9 +20,11 @@ module OCRSDK::Verifiers::Format
   end
 
   def supported_output_format?(format)
-    format = format.underscore.to_sym  if format.kind_of? String
+    formats = Array(format).map do |f|
+      f.kind_of?(String) ? f.underscore.to_sym : f
+    end
 
-    OUTPUT_FORMATS.include? format
+    formats.all? {|format| OUTPUT_FORMATS.include? format }
   end
 
 end

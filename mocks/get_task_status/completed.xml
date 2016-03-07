@@ -9,6 +9,8 @@
     credits="10"
     estimatedProcessingTime="3600"
     resultUrl="http://cloud.ocrsdk.com/result_url"
+    resultUrl2="http://cloud.ocrsdk.com/result_url2"
+    resultUrl3="http://cloud.ocrsdk.com/result_url3"
     description="My first OCR task"/>
   <task/>
 </response>

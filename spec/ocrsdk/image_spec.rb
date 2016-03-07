@@ -13,6 +13,12 @@ describe OCRSDK::Image do
 
   subject { OCRSDK::Image.new TestFiles.russian_jpg_path }
 
+  describe ".as_languages_and_formats" do
+    it "should call api and return Promise" do
+      subject.as_languages_and_formats([:russian],[:txt, :xml], :text_extraction).should be_kind_of(OCRSDK::Promise)
+    end
+  end
+
   describe ".as_text" do
     it "should call api and return Promise" do
       subject.as_text([:russian]).should be_kind_of(OCRSDK::Promise)

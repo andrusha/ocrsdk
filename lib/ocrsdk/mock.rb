@@ -9,6 +9,8 @@ module OCRSDK::Mock
       stub_process_image response(:process_image, :success)
       stub_get_task_status response(:get_task_status, :completed)
       stub_result response(:result, :simple)
+      stub_result response(:result2, :simple2),'http://cloud.ocrsdk.com/result_url2'
+      stub_result response(:result3, :simple3),'http://cloud.ocrsdk.com/result_url3'
     end
 
     def in_progress
@@ -30,8 +32,8 @@ module OCRSDK::Mock
       WebMock::API.stub_request(:get,  /.*:.*@cloud.ocrsdk.com\/getTaskStatus\?taskId=.*/).to_return(body: response)
     end
 
-    def stub_result(response)
-      WebMock::API.stub_request(:get, 'http://cloud.ocrsdk.com/result_url').to_return(body: response)
+    def stub_result(response, url = "http://cloud.ocrsdk.com/result_url")
+      WebMock::API.stub_request(:get, url).to_return(body: response)
     end
 
     def response(method, status)

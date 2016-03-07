@@ -1,7 +1,7 @@
 class OCRSDK::Promise < OCRSDK::AbstractEntity
   include OCRSDK::Verifiers::Status
 
-  attr_reader :task_id, :status, :result_url, :estimate_processing_time
+  attr_reader :task_id, :status, :result_urls, :estimate_processing_time
 
   def self.from_response(xml_string)
     OCRSDK::Promise.new(nil).parse_response xml_string
@@ -26,7 +26,7 @@ class OCRSDK::Promise < OCRSDK::AbstractEntity
     end
 
     @status     = status_to_sym task['status']
-    @result_url = task['resultUrl']
+    @result_urls = [task['resultUrl'], task['resultUrl2'], task['resultUrl3']]
     @registration_time        = DateTime.parse task['registrationTime']    
     @estimate_processing_time = task['estimatedProcessingTime'].to_i
 
@@ -55,9 +55,21 @@ class OCRSDK::Promise < OCRSDK::AbstractEntity
   end
 
   def result(retry_sleep=OCRSDK.config.retry_wait_time)
+    result_with_number(0, retry_sleep)
+  end
+
+  def result2(retry_sleep=OCRSDK.config.retry_wait_time)
+    result_with_number(1, retry_sleep)
+  end
+
+  def result3(retry_sleep=OCRSDK.config.retry_wait_time)
+    result_with_number(2, retry_sleep)
+  end
+
+  def result_with_number(number, retry_sleep)
     raise OCRSDK::ProcessingFailed  if failed?
     retryable tries: OCRSDK.config.number_or_retries, on: OCRSDK::NetworkError, sleep: retry_sleep do
-      api_get_result
+      api_get_result(number)
     end
   end
 
@@ -82,8 +94,8 @@ private
     raise OCRSDK::NetworkError
   end
 
-  def api_get_result
-    RestClient.get @result_url.to_s
+  def api_get_result(result_number=0)
+    RestClient.get @result_urls[result_number].to_s
   rescue RestClient::ExceptionWithResponse
     raise OCRSDK::NetworkError
   end

@@ -15,7 +15,7 @@ describe OCRSDK::Promise do
 
       its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
       its(:status)     { should == :submitted }
-      its(:result_url) { should == 'http://cloud.ocrsdk.com/result_url' }
+      its(:result_urls) { should == ['http://cloud.ocrsdk.com/result_url',nil,nil] }
       its(:estimate_processing_time) { should == 3600 }
       its(:estimate_completion) { should == DateTime.parse("2001-01-01T13:18:22Z") + 3600.seconds }      
     end
@@ -46,7 +46,7 @@ describe OCRSDK::Promise do
 
     its(:task_id)    { should == '22345200-abe8-4f60-90c8-0d43c5f6c0f6' }
     its(:status)     { should == :submitted }
-    its(:result_url) { should == 'http://cloud.ocrsdk.com/result_url' }
+    its(:result_urls) { should == ['http://cloud.ocrsdk.com/result_url',nil,nil] }
     its(:estimate_processing_time) { should == 3600 }
     its(:estimate_completion) { should == DateTime.parse("2001-01-01T13:18:22Z") + 3600.seconds }
   end
@@ -98,6 +98,8 @@ describe OCRSDK::Promise do
       subject { OCRSDK::Promise.from_response OCRSDK::Mock.response(:get_task_status, :completed) }
 
       its(:result) { should == 'meow' }
+      its(:result2) { should == 'meow2' }
+      its(:result3) { should == 'meow3' }
 
       it "should raise NetworkError in case getting file fails, but retry 3 times before failing" do
         RestClient.stub(:get) {|url| raise RestClient::ExceptionWithResponse }
